@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>My Blog</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f2ee;
+      --text: #20231f;
+      --card: #ffffff;
+      --accent: #496b52;
+    }
+
+    body.dark {
+      color-scheme: dark;
+      --bg: #171b18;
+      --text: #edf1ec;
+      --card: #242b26;
+      --accent: #a7c9a9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      transition: background-color 200ms ease, color 200ms ease;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem max(1.5rem, calc((100% - 760px) / 2));
+      border-bottom: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+    }
+
+    .site-title {
+      margin: 0;
+      font-size: 1.5rem;
+      letter-spacing: -0.04em;
+    }
+
+    .theme-toggle {
+      padding: 0.65rem 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--card);
+      font: 600 0.9rem Arial, sans-serif;
+      cursor: pointer;
+      transition: opacity 150ms ease, transform 150ms ease;
+    }
+
+    .theme-toggle:hover {
+      opacity: 0.86;
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 3px solid var(--text);
+      outline-offset: 3px;
+    }
+
+    main {
+      width: min(100% - 2rem, 680px);
+      margin: 4rem auto;
+    }
+
+    .intro {
+      margin: 0 0 2rem;
+      color: var(--accent);
+      font: 600 0.75rem Arial, sans-serif;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .post {
+      margin-bottom: 1.25rem;
+      padding: clamp(1.5rem, 5vw, 2.5rem);
+      border: 1px solid color-mix(in srgb, var(--text) 8%, transparent);
+      border-radius: 1rem;
+      background: var(--card);
+      box-shadow: 0 12px 32px rgb(25 35 27 / 5%);
+      transition: background-color 200ms ease, border-color 200ms ease;
+    }
+
+    .post h2 {
+      margin: 0 0 0.6rem;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      letter-spacing: -0.04em;
+    }
+
+    .post time {
+      color: var(--accent);
+      font: 600 0.78rem Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .post p {
+      margin: 1.25rem 0 0;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-bar">
+    <h1 class="site-title">My Blog</h1>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
+  </header>
+
+  <main>
+    <p class="intro">Notes from the everyday</p>
+    <article class="post">
+      <h2>A slower kind of morning</h2>
+      <time datetime="2026-05-18">May 18, 2026</time>
+      <p>Today started with an open window, a warm cup of tea, and nowhere in particular to be. It is surprising how much room a quiet morning can make for a new idea.</p>
+    </article>
+    <article class="post">
+      <h2>Finding inspiration close to home</h2>
+      <time datetime="2026-05-12">May 12, 2026</time>
+      <p>A familiar walk can feel brand new when you take the time to notice it. I came back with a pocket full of little details and a reminder to look a little closer.</p>
+    </article>
+  </main>
+
+  <script>
+    const themeToggle = document.querySelector("#theme-toggle");
+    const savedTheme = localStorage.getItem("blog-theme");
+
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+    }
+
+    function updateThemeButton() {
+      const isDark = document.body.classList.contains("dark");
+      themeToggle.textContent = isDark ? "Light mode" : "Dark mode";
+      themeToggle.setAttribute("aria-pressed", String(isDark));
+    }
+
+    updateThemeButton();
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem("blog-theme", isDark ? "dark" : "light");
+      updateThemeButton();
+    });
+  </script>
+</body>
+</html>
